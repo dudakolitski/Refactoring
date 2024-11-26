@@ -1,76 +1,50 @@
-import java.util.Enumeration;
-import java.util.Vector;
-
 public class Customer {
-   private String _name;
-   @SuppressWarnings("rawtypes")
-   private Vector _rentals = new Vector();
-
-   public Customer(String name) {
-      _name = name;
-   }
-
-   @SuppressWarnings("unchecked")
-   public void addRental(Rental arg) {
-      _rentals.addElement(arg);
-   }
-
-   public String getName() {
-      return _name;
-   }
-
-   @SuppressWarnings("rawtypes")
-   public String statement() {
-      double totalAmount = 0;
-      int frequentRenterPoints = 0;
-      Enumeration rentals = _rentals.elements();
-      String result = "Rental Record for " + getName() + "\n";
-      while (rentals.hasMoreElements()) {
-         double thisAmount = 0;
-         Rental each = (Rental) rentals.nextElement();
-
-         // Chama o novo método para calcular o valor da locação
-         thisAmount = amountFor(each);
-
-         // add frequent renter points
-         frequentRenterPoints++;
-         // add bonus for a two day new release rental
-         if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) &&
-             each.getDaysRented() > 1) frequentRenterPoints++;
-
-         // show figures for this rental
-         result += "\t" + each.getMovie().getTitle() + "\t" +
-                   String.valueOf(thisAmount) + "\n";
-         totalAmount += thisAmount;
-      }
-      // add footer lines
-      result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-      result += "You earned " + String.valueOf(frequentRenterPoints) +
-                " frequent renter points";
-      return result;
-   }
-
-   // Novo método que calcula o valor da locação com o parâmetro renomeado
-   private double amountFor(Rental aRental) {
-      double thisAmount = 0;
-
-      // Código extraído do switch-case
-      switch (aRental.getMovie().getPriceCode()) {
-         case Movie.REGULAR:
-            thisAmount += 2;
-            if (aRental.getDaysRented() > 2)
-               thisAmount += (aRental.getDaysRented() - 2) * 1.5;
-            break;
-         case Movie.NEW_RELEASE:
-            thisAmount += aRental.getDaysRented() * 3;
-            break;
-         case Movie.CHILDRENS:
-            thisAmount += 1.5;
-            if (aRental.getDaysRented() > 3)
-               thisAmount += (aRental.getDaysRented() - 3) * 1.5;
-            break;
-      }
-
-      return thisAmount;
-   }
-}
+    private String _name;
+    @SuppressWarnings("rawtypes")
+    private Vector _rentals = new Vector();
+ 
+    public Customer(String name) {
+       _name = name;
+    }
+ 
+    @SuppressWarnings("unchecked")
+    public void addRental(Rental arg) {
+       _rentals.addElement(arg);
+    }
+ 
+    public String getName() {
+       return _name;
+    }
+ 
+    @SuppressWarnings("rawtypes")
+    public String statement() {
+       double totalAmount = 0;
+       int frequentRenterPoints = 0;
+       Enumeration rentals = _rentals.elements();
+       String result = "Rental Record for " + getName() + "\n";
+       while (rentals.hasMoreElements()) {
+          double thisAmount = 0;
+          Rental each = (Rental) rentals.nextElement();
+ 
+          // Agora chamamos o método getCharge() da classe Rental
+          thisAmount = each.getCharge();  // Usando o método de Rental para calcular o valor da locação
+ 
+          // add frequent renter points
+          frequentRenterPoints++;
+          // add bonus for a two day new release rental
+          if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) &&
+              each.getDaysRented() > 1) frequentRenterPoints++;
+ 
+          // show figures for this rental
+          result += "\t" + each.getMovie().getTitle() + "\t" +
+                    String.valueOf(thisAmount) + "\n";
+          totalAmount += thisAmount;
+       }
+       // add footer lines
+       result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
+       result += "You earned " + String.valueOf(frequentRenterPoints) +
+                 " frequent renter points";
+       return result;
+    }
+ }
+ 

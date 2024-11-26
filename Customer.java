@@ -50,24 +50,24 @@ public class Customer {
       return result;
    }
 
-   // Novo método que calcula o valor da locação
-   private double amountFor(Rental each) {
+   // Novo método que calcula o valor da locação com o parâmetro renomeado
+   private double amountFor(Rental aRental) {
       double thisAmount = 0;
 
       // Código extraído do switch-case
-      switch (each.getMovie().getPriceCode()) {
+      switch (aRental.getMovie().getPriceCode()) {
          case Movie.REGULAR:
             thisAmount += 2;
-            if (each.getDaysRented() > 2)
-               thisAmount += (each.getDaysRented() - 2) * 1.5;
+            if (aRental.getDaysRented() > 2)
+               thisAmount += (aRental.getDaysRented() - 2) * 1.5;
             break;
          case Movie.NEW_RELEASE:
-            thisAmount += each.getDaysRented() * 3;
+            thisAmount += aRental.getDaysRented() * 3;
             break;
          case Movie.CHILDRENS:
             thisAmount += 1.5;
-            if (each.getDaysRented() > 3)
-               thisAmount += (each.getDaysRented() - 3) * 1.5;
+            if (aRental.getDaysRented() > 3)
+               thisAmount += (aRental.getDaysRented() - 3) * 1.5;
             break;
       }
 

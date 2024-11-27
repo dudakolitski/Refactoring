@@ -1,5 +1,4 @@
 public class Rental {
-
     private Movie _movie;
     private int _daysRented;
 
@@ -14,6 +13,18 @@ public class Rental {
 
     public Movie getMovie() {
        return _movie;
+    }
+
+    // Método para calcular os pontos de locação
+    public int getFrequentRenterPoints() {
+        int points = 1;  // Default points for every rental
+        
+        // Adiciona bônus para filmes novos lançamentos
+        if (_movie.getPriceCode() == Movie.NEW_RELEASE && _daysRented > 1) {
+            points++;  // Bônus de 1 ponto extra para locações de novos lançamentos com mais de 1 dia
+        }
+
+        return points;
     }
 
     // Método renomeado para getCharge() e movido para a classe Rental

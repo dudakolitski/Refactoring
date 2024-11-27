@@ -1,57 +1,68 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Customer {
     private String _name;
-    @SuppressWarnings("rawtypes")
-    private Vector _rentals = new Vector();
+    private List<Rental> _rentals = new ArrayList<>();  // Usando List no lugar de Vector
 
     public Customer(String name) {
         _name = name;
     }
 
-    @SuppressWarnings("unchecked")
     public void addRental(Rental arg) {
-        _rentals.addElement(arg);
+        _rentals.add(arg);  // Usando add() no lugar de addElement()
     }
 
     public String getName() {
         return _name;
     }
 
-    @SuppressWarnings("rawtypes")
     public String statement() {
-        Enumeration rentals = _rentals.elements();
+        Iterator<Rental> rentals = _rentals.iterator();  // Usando Iterator
         String result = "Rental Record for " + getName() + "\n";
         
-        // Iterando sobre os aluguéis e exibindo as informações
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
-
-            // Exibe os detalhes de cada locação
+        while (rentals.hasNext()) {
+            Rental each = rentals.next();  // Usando next() para acessar o próximo elemento
             result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
         }
 
-        // Adiciona as linhas de rodapé
-        result += "Amount owed is " + String.valueOf(getTotalCharge()) + "\n"; // Substitui totalAmount
-        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points"; // Substitui frequentRenterPoints
+        result += "Amount owed is " + String.valueOf(getTotalCharge()) + "\n";
+        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points";
         return result;
     }
 
-    // Método que calcula o total da cobrança
+    public String htmlStatement() {
+        Iterator<Rental> rentals = _rentals.iterator();  // Usando Iterator
+        String result = "<H1>Rentals for <EM>" + getName() + "</EM></H1><P>\n";
+        
+        while (rentals.hasNext()) {
+            Rental each = rentals.next();
+            result += each.getMovie().getTitle() + ": " + String.valueOf(each.getCharge()) + "<BR>\n";
+        }
+
+        result += "<P>You owe <EM>" + String.valueOf(getTotalCharge()) + "</EM><P>\n";
+        result += "On this rental you earned <EM>" + String.valueOf(getTotalFrequentRenterPoints()) +
+                 "</EM> frequent renter points<P>";
+        
+        return result;
+    }
+
     private double getTotalCharge() {
         double result = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
+        Iterator<Rental> rentals = _rentals.iterator();  // Usando Iterator
+        while (rentals.hasNext()) {
+            Rental each = rentals.next();
             result += each.getCharge();
         }
         return result;
     }
 
-    // Método que calcula o total de pontos do locatário
     private int getTotalFrequentRenterPoints() {
         int result = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
+        Iterator<Rental> rentals = _rentals.iterator();  // Usando Iterator
+        while (rentals.hasNext()) {
+            Rental each = rentals.next();
             result += each.getFrequentRenterPoints();
         }
         return result;

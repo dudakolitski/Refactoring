@@ -1,13 +1,22 @@
 public class TextStatement extends Statement {
-    public String value(Customer aCustomer) {
-        String result = "Rental Record for " + aCustomer.getName() + "\n";
 
+    @Override
+    protected String createHeader(Customer aCustomer) {
+        return "Rental Record for " + aCustomer.getName() + "\n";
+    }
+
+    @Override
+    protected String createBody(Customer aCustomer) {
+        StringBuilder body = new StringBuilder();
         for (Rental each : aCustomer.getRentals()) {
-            result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
+            body.append("\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n");
         }
+        return body.toString();
+    }
 
-        result += "Amount owed is " + String.valueOf(aCustomer.getTotalCharge()) + "\n";
-        result += "You earned " + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) + " frequent renter points";
-        return result;
+    @Override
+    protected String createFooter(Customer aCustomer) {
+        return "Amount owed is " + String.valueOf(aCustomer.getTotalCharge()) + "\n" +
+               "You earned " + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) + " frequent renter points";
     }
 }

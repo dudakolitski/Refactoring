@@ -1,13 +1,22 @@
 public class HtmlStatement extends Statement {
-    public String value(Customer aCustomer) {
-        String result = "<H1>Rentals for <EM>" + aCustomer.getName() + "</EM></H1><P>\n";
 
+    @Override
+    protected String createHeader(Customer aCustomer) {
+        return "<H1>Rentals for <EM>" + aCustomer.getName() + "</EM></H1><P>\n";
+    }
+
+    @Override
+    protected String createBody(Customer aCustomer) {
+        StringBuilder body = new StringBuilder();
         for (Rental each : aCustomer.getRentals()) {
-            result += each.getMovie().getTitle() + ": " + String.valueOf(each.getCharge()) + "<BR>\n";
+            body.append(each.getMovie().getTitle() + ": " + String.valueOf(each.getCharge()) + "<BR>\n");
         }
+        return body.toString();
+    }
 
-        result += "<P>You owe <EM>" + String.valueOf(aCustomer.getTotalCharge()) + "</EM><P>\n";
-        result += "On this rental you earned <EM>" + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) + "</EM> frequent renter points<P>";
-        return result;
+    @Override
+    protected String createFooter(Customer aCustomer) {
+        return "<P>You owe <EM>" + String.valueOf(aCustomer.getTotalCharge()) + "</EM><P>\n" +
+               "On this rental you earned <EM>" + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) + "</EM> frequent renter points<P>";
     }
 }

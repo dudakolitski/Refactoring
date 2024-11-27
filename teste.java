@@ -1,5 +1,5 @@
 public class teste {
-    public class Main {
+    public static class Main {  // Torne a classe Main estática
         public static void main(String[] args) {
             Movie movie1 = new Movie("The Matrix", Movie.REGULAR);
             Movie movie2 = new Movie("The Lion King", Movie.CHILDRENS);
@@ -15,6 +15,4 @@ public class teste {
             System.out.println(customer.htmlStatement());
         }
     }
-    
-    
 }

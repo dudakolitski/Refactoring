@@ -6,12 +6,8 @@ public class HtmlStatement extends Statement {
     }
 
     @Override
-    protected String createBody(Customer aCustomer) {
-        StringBuilder body = new StringBuilder();
-        for (Rental each : aCustomer.getRentals()) {
-            body.append(each.getMovie().getTitle() + ": " + String.valueOf(each.getCharge()) + "<BR>\n");
-        }
-        return body.toString();
+    protected String createBody(Customer aCustomer, Rental each) {
+        return each.getMovie().getTitle() + ": " + String.valueOf(each.getCharge()) + "<BR>\n";
     }
 
     @Override

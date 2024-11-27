@@ -6,12 +6,8 @@ public class TextStatement extends Statement {
     }
 
     @Override
-    protected String createBody(Customer aCustomer) {
-        StringBuilder body = new StringBuilder();
-        for (Rental each : aCustomer.getRentals()) {
-            body.append("\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n");
-        }
-        return body.toString();
+    protected String createBody(Customer aCustomer, Rental each) {
+        return "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
     }
 
     @Override
